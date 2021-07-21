@@ -2,6 +2,7 @@
 
 namespace coordLibrary
 {
+    
     public class Coord
     {
         public int X;
@@ -31,11 +32,19 @@ namespace coordLibrary
                 new Coord(X, Y + 1)
             };
         }
+        public static int DotProduct(Coord first, Coord second)
+        {
+            return first.Dot(second);
+        }
+        public static int CrossProduct(Coord first, Coord second)
+        {
+            return first.Cross(second);
+        }
         public int Distance(Coord other)
         {
             return Math.Abs(X - other.X) + Math.Abs(Y - other.Y);
         }
-        public float Dist(Coord other, int pow = 2, int size = 16)
+        public float Dist(Coord other, int pow = 2, int size = 0)
         {
             Coord diff = this - other;
             if (size == 0) return (float)(Math.Pow(Math.Abs(diff.X), pow) + Math.Pow(Math.Abs(diff.Y), pow));
@@ -49,13 +58,17 @@ namespace coordLibrary
             }
             return dist;
         }
-        public float Dist(int x, int y, int pow = 2, int size = 16)
+        public float Dist(int x, int y, int pow = 2, int size = 0)
         {
             return Dist(new Coord(x, y), pow, size);
         }
         public Coord Interpolate(Coord other, int percentage)
         {
             return (percentage * this + (100 - percentage) * other) / 100;
+        }
+        public static Coord Lerp(Coord first, Coord second, int percentage)
+        {
+            return first.Interpolate(second, percentage);
         }
         public static Coord operator +(Coord left, Coord right)
         {
@@ -75,11 +88,7 @@ namespace coordLibrary
         }
         public static Coord operator *(Coord left, int right)
         {
-            return new Coord
-            {
-                X = left.X * right,
-                Y = left.Y * right
-            };
+            return right * left;
         }
         public static Coord operator *(int left, Coord right)
         {
@@ -161,13 +170,7 @@ namespace coordLibrary
             return left.Equals(right);
         }
         public static bool operator !=(Coord left, Coord right) => !(left == right);
-        public static float operator &(Coord left, Coord right)
-        {
-            float result = (left.X * right.X + left.Y * right.Y) / (float)Math.Sqrt((left.X * left.X + left.Y * left.Y) * (right.X * right.X + right.Y * right.Y));
-            //Console.WriteLine(result);
-            return result;
-        }
-
+        
         public int Dot(Coord other)
         {
             return this.X * other.X + this.Y * other.Y;
