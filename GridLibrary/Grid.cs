@@ -13,6 +13,12 @@ namespace GridLibrary
         public int height;
         public Random rand;
         
+        public Coord RandomCoord()
+        {
+            int x = rand.Next(width);
+            int y = rand.Next(height);
+            return new Coord(x, y);
+        }
         public Grid(int _width, int _height)
         {
             width = _width;
